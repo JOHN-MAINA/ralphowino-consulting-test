@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 use App\User;
 use Illuminate\Support\Facades\Password;
@@ -43,13 +44,11 @@ class AuthTest extends TestCase
 
         // Attempt login with invalid credentials
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email' => 'myemail', //$user->email,
             'password' => 'invalid-pass',
         ]);
 
-        // Confirm that the user was redirected back with errors
-        $response->assertSessionHasErrors();
-
+        $response->assertSessionHasErrors(['email']);
     }
 
     /**
