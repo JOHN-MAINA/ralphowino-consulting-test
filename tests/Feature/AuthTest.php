@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthTest extends TestCase
 {
-    public function  test_user_can_login_with_valid_credentials(){
+    /**
+     * @test
+     */
+    public function  a_user_can_login_with_valid_credentials(){
 
         // Create a user and persist
         $user = $user = factory(User::class)->create();
@@ -30,7 +33,10 @@ class AuthTest extends TestCase
 
     }
 
-    public function  test_user_cannot_login_with_invalid_credentials(){
+    /**
+     * @test
+     */
+    public function  a_user_cannot_login_with_invalid_credentials(){
 
         // Create a user and persist
         $user = $user = factory(User::class)->create();
@@ -46,7 +52,10 @@ class AuthTest extends TestCase
 
     }
 
-    public function  test_user_can_register_with_valid_credentials(){
+    /**
+     * @test
+     */
+    public function  a_user_can_register_with_valid_credentials(){
 
         // Create a user and don't save to db
         $user = factory(User::class)->make();
@@ -66,7 +75,10 @@ class AuthTest extends TestCase
 
     }
 
-    public function  test_user_cannot_register_with_existing_credentials(){
+    /**
+     * @test
+     */
+    public function  a_user_cannot_register_with_existing_credentials(){
 
         // Fetch an existing user from the db
         $user = User::orderBy('created_at', 'desc')->first();
@@ -87,7 +99,11 @@ class AuthTest extends TestCase
      * NB: For this test to succeed you must have configured your mail variable
      *  Laravel will attempt to send a password reset email to the user
      */
-    public function  test_user_can_request_for_reset_password_code(){
+
+    /**
+     * @test
+     */
+    public function  a_user_can_request_for_reset_password_code(){
 
         // Create a user and don't save to db
         $user = User::orderBy('created_at', 'desc')->first();
@@ -101,7 +117,10 @@ class AuthTest extends TestCase
 
     }
 
-    public function  test_user_can_reset_password_with_valid_code(){
+    /**
+     * @test
+     */
+    public function  a_user_can_reset_password_with_valid_code(){
 
         $user = factory(User::class)->create();
 
