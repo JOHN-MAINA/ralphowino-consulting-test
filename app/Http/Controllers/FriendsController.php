@@ -35,4 +35,12 @@ class FriendsController extends Controller
         $friend_requests = $user->getFriendRequests();
         return response()->json($friend_requests, $this->successStatus);
     }
+
+    public function accept_friend_request($sender_id){
+        $user = Auth::user();
+        $sender = User::find($sender_id);
+        $user->acceptFriendRequest($sender);
+
+        return response()->json(['statusText' => 'Friend request accepted'], $this->successStatus);
+    }
 }

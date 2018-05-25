@@ -10,7 +10,8 @@
 <script>
     import http from '../mixins/http';
     export default {
-        created: function () {
+
+        mounted: function () {
             this.fetchUsers(this);
         },
         computed: {
@@ -19,27 +20,24 @@
             }
         },
         methods: {
-            fetchUsers: (vm) => {
-                console.log(vm);
+            fetchUsers: function () {
                 http.get('friends/find').then(
                     (data) => {
-//                        vm.fetchFriendRequests();
-//                        vm.$store.state.users = data;
-                        console.log(vm.$store.state.users.data)
+                        this.fetchFriendRequests();
+                        this.$store.state.users = data;
                     },
                     (error) => {
                         console.log(error)
                     }
                 )
             },
-            fetchFriendRequests: () => {
+            fetchFriendRequests: function () {
                 http.get('friends/requests').then(
                     (data) => {
                         this.$store.state.friendRequests = [];
                         data.forEach((request) => {
-                            http.get('users/user/' + request.sender_id).then(
+                            http.get('users/user/' + request.recipient_id).then(
                                 (data) => {
-                                    console.log(data);
                                     this.$store.state.friendRequests.push(data);
                                 },
                                 (error) => {
@@ -47,7 +45,6 @@
                                 }
                             )
                         });
-                        console.log(data);
                     },
                     (error) => {
                         console.log(error)
@@ -64,10 +61,12 @@
                     }
                 )
             },
-            isFriendRequestSent: (id) => {
+            isFriendRequestSent: function (id) {
                 let requestSent = false;
                 this.$store.state.friendRequests.forEach((request) => {
-
+                        if(request.id === id){
+                            requestSent = true;
+                        }
                 });
                 return requestSent;
             }

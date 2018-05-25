@@ -2,9 +2,9 @@
     <div>
         <h3>Friend Requests Component</h3>
 
-        <div v-for="request in friendRequests" class="row align-items-center my-4">
+        <div v-for="request in requests" class="row align-items-center my-4">
             <div class="col">{{ request.name }}</div>
-            <div class="col"><button class="btn btn-info" @click="sendRequest(request.id)">Accept Request</button></div>
+            <div class="col"><button class="btn btn-info">Accept Request</button></div>
         </div>
     </div>
 </template>
@@ -12,7 +12,12 @@
 <script>
     import http from '../mixins/http';
     export default {
-        created: function () {
+        data (){
+            return {
+                requests: []
+            }
+        },
+        mounted: function () {
             this.fetchFriendRequests();
         },
         computed: {
@@ -24,19 +29,17 @@
             fetchFriendRequests: function () {
                 http.get('friends/requests').then(
                     (data) => {
-                        this.$store.state.friendRequests = [];
                         data.forEach((request) => {
                             http.get('users/user/' + request.sender_id).then(
                                 (data) => {
-                                    console.log(data);
-                                    this.$store.state.friendRequests.push(data);
+                                    this.requests.push(data);
                                 },
                                 (error) => {
-
+                                    console.log(error);
                                 }
                             )
                         });
-                        console.log(data);
+                        console.log(this.requests);
                     },
                     (error) => {
                         console.log(error)

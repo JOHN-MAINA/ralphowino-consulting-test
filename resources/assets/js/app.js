@@ -4,7 +4,7 @@ import App from './App.vue';
 import Auth from './mixins/auth';
 import store from './store/store';
 import Vue from 'vue';
-var VueResource = require('vue-resource');
+let VueResource = require('vue-resource');
 
 require('./bootstrap');
 
