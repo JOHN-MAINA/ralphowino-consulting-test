@@ -12,6 +12,21 @@
                             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ userName }}     <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">
+                                    logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </nav>
             <div class="container">
@@ -47,10 +62,13 @@
 </template>
 
 <script>
+    let user = JSON.parse(localStorage.getItem('user'));
     export default{
         data(){
             return {
-                isAuthComponent: false
+                isAuthComponent: false,
+                userName: user.name,
+                userEmail: user.email
             }
         },
         created: function () {
@@ -59,8 +77,6 @@
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;
             }
-
-            console.log(this.$route.name);
         }
     }
 </script>
