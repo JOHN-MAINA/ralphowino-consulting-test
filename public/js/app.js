@@ -26914,14 +26914,17 @@ if (inBrowser && window.Vue) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_FindFriendsComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_FindFriendsComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_UserProfileComponent_vue__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_UserProfileComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_UserProfileComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_auth_LoginComponent_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_auth_LoginComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_auth_LoginComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_RegisterComponent_vue__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_RegisterComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_auth_RegisterComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_ResetComponent_vue__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_ResetComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_auth_ResetComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_EmailComponent_vue__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_EmailComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_auth_EmailComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_BlockedUsersComponent_vue__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_BlockedUsersComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_BlockedUsersComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_LoginComponent_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_LoginComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_auth_LoginComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_RegisterComponent_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_RegisterComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_auth_RegisterComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_ResetComponent_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_auth_ResetComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_auth_ResetComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue__);
+
 
 
 
@@ -26952,21 +26955,26 @@ var routes = [{
     component: __WEBPACK_IMPORTED_MODULE_3__components_UserProfileComponent_vue___default.a,
     meta: { requiresAuth: true }
 }, {
+    path: '/friends/blocked',
+    name: 'Blocked',
+    component: __WEBPACK_IMPORTED_MODULE_4__components_BlockedUsersComponent_vue___default.a,
+    meta: { requiresAuth: true }
+}, {
     path: '/login',
     name: 'Login',
-    component: __WEBPACK_IMPORTED_MODULE_4__components_auth_LoginComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_5__components_auth_LoginComponent_vue___default.a
 }, {
     path: '/register',
     name: 'Register',
-    component: __WEBPACK_IMPORTED_MODULE_5__components_auth_RegisterComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_6__components_auth_RegisterComponent_vue___default.a
 }, {
     path: '/reset',
     name: 'Reset_Pass',
-    component: __WEBPACK_IMPORTED_MODULE_6__components_auth_ResetComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_7__components_auth_ResetComponent_vue___default.a
 }, {
     path: '/email',
     name: 'Request_Token',
-    component: __WEBPACK_IMPORTED_MODULE_7__components_auth_EmailComponent_vue___default.a
+    component: __WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue___default.a
     // { path: '*', redirect: '/list' },
 }];
 
@@ -27037,25 +27045,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            friends: []
+        };
+    },
+
     created: function created() {
         this.fetchFriends();
-    },
-    computed: {
-        friends: function friends() {
-            this.$store.state.friends;
-        }
     },
     methods: {
         fetchFriends: function fetchFriends() {
             var _this = this;
 
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends').then(function (data) {
-                _this.$store.state.friends = data;
-                console.log(_this.$store.state.friends);
+                _this.friends = data;
             }, function (error) {
                 console.log(error);
             });
@@ -27340,13 +27347,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "h3" }, [_vm._v("My Friends")]),
-    _vm._v(" "),
-    _vm._v("\n\n    " + _vm._s(_vm.friends) + "\n")
-  ])
+  return _c(
+    "div",
+    [
+      _c("h3", { staticClass: "h3" }, [_vm._v("My Friends")]),
+      _vm._v(" "),
+      _vm._l(_vm.friends, function(friend) {
+        return _c("div", { staticClass: "row align-items-center my-4" }, [
+          _c("div", { staticClass: "col" }, [_vm._v(_vm._s(friend.name))]),
+          _vm._v(" "),
+          _vm._m(0, true)
+        ])
+      })
+    ],
+    2
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("button", { staticClass: "btn btn-info" }, [_vm._v("Block")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -27421,6 +27447,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -27450,7 +27478,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         console.log(error);
                     });
                 });
-                console.log(_this.requests);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        acceptRequest: function acceptRequest(id) {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/request/accept/' + id).then(function (data) {
+                _this2.requests = data;
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        denyRequest: function denyRequest(id) {
+            var _this3 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/request/deny/' + id).then(function (data) {
+                _this3.requests = data;
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        blockRequest: function blockRequest(id) {
+            var _this4 = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/block/' + id).then(function (data) {
+                _this4.requests = data;
             }, function (error) {
                 console.log(error);
             });
@@ -27475,23 +27529,57 @@ var render = function() {
         return _c("div", { staticClass: "row align-items-center my-4" }, [
           _c("div", { staticClass: "col" }, [_vm._v(_vm._s(request.name))]),
           _vm._v(" "),
-          _vm._m(0, true)
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                on: {
+                  click: function($event) {
+                    _vm.acceptRequest(request.id)
+                  }
+                }
+              },
+              [_vm._v("Accept Request")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                on: {
+                  click: function($event) {
+                    _vm.denyRequest(request.id)
+                  }
+                }
+              },
+              [_vm._v("Deny Request")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                on: {
+                  click: function($event) {
+                    _vm.blockRequest(request.id)
+                  }
+                }
+              },
+              [_vm._v("Block User")]
+            )
+          ])
         ])
       })
     ],
     2
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col" }, [
-      _c("button", { staticClass: "btn btn-info" }, [_vm._v("Accept Request")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -27567,34 +27655,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            users: {},
+            friendRequests: []
+        };
+    },
 
-    mounted: function mounted() {
+    created: function created() {
         this.fetchUsers(this);
     },
-    computed: {
-        users: function users() {
-            return this.$store.state.users.data;
-        }
-    },
+
     methods: {
         fetchUsers: function fetchUsers() {
             var _this = this;
 
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/find').then(function (data) {
                 _this.fetchFriendRequests();
-                _this.$store.state.users = data;
+                _this.users = data;
             }, function (error) {
                 console.log(error);
             });
         },
+
         fetchFriendRequests: function fetchFriendRequests() {
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/requests').then(function (data) {
-                _this2.$store.state.friendRequests = [];
                 data.forEach(function (request) {
                     __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('users/user/' + request.recipient_id).then(function (data) {
-                        _this2.$store.state.friendRequests.push(data);
+                        _this2.friendRequests.push(data);
                     }, function (error) {});
                 });
             }, function (error) {
@@ -27609,8 +27699,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         isFriendRequestSent: function isFriendRequestSent(id) {
+            console.log(this.friendRequests);
             var requestSent = false;
-            this.$store.state.friendRequests.forEach(function (request) {
+            this.friendRequests.forEach(function (request) {
                 if (request.id === id) {
                     requestSent = true;
                 }
@@ -27630,7 +27721,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.users, function(user) {
+    _vm._l(_vm.users.data, function(user) {
       return _c("div", { staticClass: "row align-items-center my-4" }, [
         _c("div", { staticClass: "col" }, [_vm._v(_vm._s(user.name))]),
         _vm._v(" "),
@@ -29199,9 +29290,9 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "list-group-item list-group-item-action",
-                        attrs: { to: "#" }
+                        attrs: { to: "/friends/blocked" }
                       },
-                      [_vm._v("N/A")]
+                      [_vm._v("Blocked Users")]
                     )
                   ],
                   1
@@ -51425,6 +51516,143 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 83 */,
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(86)
+/* template */
+var __vue_template__ = __webpack_require__(85)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/BlockedUsersComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e851328c", Component.options)
+  } else {
+    hotAPI.reload("data-v-e851328c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("h3", [_vm._v("User Profile Component")]),
+      _vm._v(" "),
+      _vm._l(_vm.blockedUsers, function(user) {
+        return _c("div", { staticClass: "row align-items-center my-4" }, [
+          _c("div", { staticClass: "col" }, [_vm._v(_vm._s(user.name))]),
+          _vm._v(" "),
+          _vm._m(0, true)
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("button", { staticClass: "btn btn-info" }, [_vm._v("Unblock")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e851328c", module.exports)
+  }
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_http__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            blockedUsers: []
+        };
+    },
+
+    created: function created() {
+        this.fetchBlockedUsers();
+    },
+    methods: {
+        fetchBlockedUsers: function fetchBlockedUsers() {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/blocked').then(function (data) {
+                data.forEach(function (blockedFriendship) {
+                    __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('users/user/' + blockedFriendship.recipient_id).then(function (data) {
+                        _this.blockedUsers.push(data);
+                    }, function (error) {});
+                });
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

@@ -2,6 +2,7 @@ import MyFriends from './components/MyFrindsComponent.vue'
 import FriendRequests from './components/FriendRequestsComponent.vue'
 import FindFriends from './components/FindFriendsComponent.vue'
 import UserProfile from './components/UserProfileComponent.vue'
+import BlockedUsers from './components/BlockedUsersComponent.vue'
 import Login from './components/auth/LoginComponent.vue'
 import Register from './components/auth/RegisterComponent.vue'
 import Reset from './components/auth/ResetComponent.vue'
@@ -30,6 +31,12 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: UserProfile,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/friends/blocked',
+        name: 'Blocked',
+        component: BlockedUsers,
         meta: {requiresAuth: true}
     },
     {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="user in users" class="row align-items-center my-4">
+        <div v-for="user in users.data" class="row align-items-center my-4">
             <div class="col">{{ user.name }}</div>
             <div class="col"><button class="btn btn-info" @click="sendRequest(user.id)" :disabled="isFriendRequestSent(user.id)">Send Request</button></div>
         </div>
@@ -10,35 +10,36 @@
 <script>
     import http from '../mixins/http';
     export default {
-
-        mounted: function () {
-            this.fetchUsers(this);
-        },
-        computed: {
-            users () {
-                return this.$store.state.users.data;
+        data () {
+            return {
+                users: {},
+                friendRequests: []
             }
         },
+        created: function () {
+            this.fetchUsers(this);
+        },
+
         methods: {
             fetchUsers: function () {
                 http.get('friends/find').then(
                     (data) => {
                         this.fetchFriendRequests();
-                        this.$store.state.users = data;
+                        this.users = data;
                     },
                     (error) => {
                         console.log(error)
                     }
                 )
             },
+
             fetchFriendRequests: function () {
                 http.get('friends/requests').then(
                     (data) => {
-                        this.$store.state.friendRequests = [];
                         data.forEach((request) => {
                             http.get('users/user/' + request.recipient_id).then(
                                 (data) => {
-                                    this.$store.state.friendRequests.push(data);
+                                    this.friendRequests.push(data);
                                 },
                                 (error) => {
 
@@ -62,8 +63,9 @@
                 )
             },
             isFriendRequestSent: function (id) {
+                console.log(this.friendRequests)
                 let requestSent = false;
-                this.$store.state.friendRequests.forEach((request) => {
+                this.friendRequests.forEach((request) => {
                         if(request.id === id){
                             requestSent = true;
                         }

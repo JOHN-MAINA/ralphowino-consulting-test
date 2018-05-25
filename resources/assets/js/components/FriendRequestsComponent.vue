@@ -4,7 +4,9 @@
 
         <div v-for="request in requests" class="row align-items-center my-4">
             <div class="col">{{ request.name }}</div>
-            <div class="col"><button class="btn btn-info">Accept Request</button></div>
+            <div class="col"><button class="btn btn-info" @click="acceptRequest(request.id)">Accept Request</button></div>
+            <div class="col"><button class="btn btn-info" @click="denyRequest(request.id)">Deny Request</button></div>
+            <div class="col"><button class="btn btn-info" @click="blockRequest(request.id)">Block User</button></div>
         </div>
     </div>
 </template>
@@ -39,12 +41,42 @@
                                 }
                             )
                         });
-                        console.log(this.requests);
                     },
                     (error) => {
                         console.log(error)
                     }
                 )
+            },
+            acceptRequest: function (id) {
+
+                http.get('friends/request/accept/' + id).then(
+                    (data) => {
+                        this.requests = data;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+            },
+            denyRequest: function (id) {
+                http.get('friends/request/deny/' + id).then(
+                    (data) => {
+                        this.requests = data;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+            },
+            blockRequest: function (id) {
+                http.get('friends/block/' + id).then(
+                    (data) => {
+                        this.requests = data;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
             }
         }
     }

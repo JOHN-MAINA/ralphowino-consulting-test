@@ -41,6 +41,32 @@ class FriendsController extends Controller
         $sender = User::find($sender_id);
         $user->acceptFriendRequest($sender);
 
-        return response()->json(['statusText' => 'Friend request accepted'], $this->successStatus);
+        $friend_requests = $user->getFriendRequests();
+        return response()->json($friend_requests, $this->successStatus);
+    }
+
+    public function block_user($sender_id){
+        $user = Auth::user();
+        $friend = User::find($sender_id);
+        $user->blockFriend($friend);
+
+        $friend_requests = $user->getFriendRequests();
+        return response()->json($friend_requests, $this->successStatus);
+    }
+
+    public function deny_friend_request($sender_id){
+        $user = Auth::user();
+        $sender = User::find($sender_id);
+        $user->denyFriendRequest($sender);
+
+        $friend_requests = $user->getFriendRequests();
+        return response()->json($friend_requests, $this->successStatus);
+    }
+
+    public function fetch_blocked_users(){
+        $user = Auth::user();
+        $blocked_users = $user->getBlockedFriendships();
+
+        return response()->json($blocked_users, $this->successStatus);
     }
 }

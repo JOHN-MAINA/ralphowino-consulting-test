@@ -22,6 +22,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('friends/request/{recipient_id}', 'FriendsController@send_request');
     Route::get('friends/requests', 'FriendsController@fetch_friend_requests');
     Route::get('users/user/{id}', 'UserController@fetch_user');
+    Route::get('friends/request/accept/{sender_id}', 'FriendsController@accept_friend_request');
+    Route::get('friends/request/deny/{sender_id}', 'FriendsController@deny_friend_request');
+    Route::get('friends/block/{sender_id}', 'FriendsController@block_user');
+    Route::get('friends/blocked', 'FriendsController@fetch_blocked_users');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
