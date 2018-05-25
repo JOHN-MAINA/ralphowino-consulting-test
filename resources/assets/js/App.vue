@@ -72,7 +72,7 @@
             }
         },
         created: function () {
-            var routeName = this.$route.name
+            var routeName = this.$route.name;
 
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;

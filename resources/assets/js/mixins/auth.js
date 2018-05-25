@@ -8,7 +8,7 @@ export default {
     login: function (data) {
         let vm = Vue;
          Vue.http.post('/api/login', data).then(
-             function (data) {
+             (data) => {
                  let storage = window.localStorage;
                  let user = {
                      name: data.body.success.name,
@@ -22,8 +22,10 @@ export default {
                  // Use route push
                  //window.location = '/friends';
 
+                 //Vue.$router.push({name: 'Friends'})
+
              },
-             function (error){
+             (error) => {
                  console.log(error);
              }
          );
@@ -79,7 +81,6 @@ export default {
         // Decode jwt
         let data = JSON.parse(atob(accessToken[1]));
         const now = Date.now()/1000;
-        console.log(now - (localStorage.getItem('issuedTime'))/1000);
 
         if(now - (localStorage.getItem('issuedTime'))/1000 > EXPIRY_TIME){
             // token was issued a day ago fetch a new one;
