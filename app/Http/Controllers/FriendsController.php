@@ -10,11 +10,25 @@ class FriendsController extends Controller
 {
     public $successStatus = 200;
 
-    public function get_friends(){
+    public function get_friends($id = false){
+        if($id){
+            $user = User::find($id);
+            $friends = $user->getFriends();
+
+            return response()->json($friends, $this->successStatus);
+        }
+
         $user = Auth::user();
         $friends = $user->getFriends();
 
         return response()->json($friends, $this->successStatus);
+    }
+
+    public function get_friends_count($user_id){
+        $user = User::find($user_id);
+        $friends_count = $user->getFriendsCount();
+
+        return response()->json($friends_count, $this->successStatus);
     }
 
     public function find_friends(){

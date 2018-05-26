@@ -30,9 +30,6 @@ export default {
              }
          );
     },
-    logout: function () {
-
-    },
     register: function (data) {
         Vue.http.post('/api/register', data).then(
             function (data) {

@@ -16,7 +16,8 @@ use Illuminate\Http\Request;
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('friends', 'FriendsController@get_friends');
+    Route::get('friends/{id?}', 'FriendsController@get_friends');
+    Route::get('friends/count/{user_id}', 'FriendsController@get_friends_count');
     Route::get('friends/find', 'FriendsController@find_friends');
     Route::get('friends/request/{recipient_id}', 'FriendsController@send_request');
     Route::get('friends/requests', 'FriendsController@fetch_friend_requests');

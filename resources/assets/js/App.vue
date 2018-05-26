@@ -9,7 +9,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <router-link class="nav-link" to="/friends">Friends <span class="sr-only"></span></router-link>
                         </li>
                     </ul>
 
@@ -21,9 +21,9 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
+                                <router-link class="dropdown-item" to="/logout">
                                     logout
-                                </a>
+                                </router-link>
                             </div>
                         </li>
                     </ul>

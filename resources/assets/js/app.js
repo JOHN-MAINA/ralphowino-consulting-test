@@ -18,7 +18,7 @@ const router = new VueRouter({
 });
 
 // Check if user is authenticated
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
     if (to.meta.requiresAuth && !Auth.hasValidToken()) {
         next({name: 'Login'});
     }
@@ -28,8 +28,8 @@ router.beforeEach((to, from, next) => {
 let vm = new Vue({
     store: store,
     el: '#app',
-    router,
+    'router': router,
     render: h => h(App)
 });
 
-//new Vue(Vue.util.extend({ router }, App)).$mount('#app');
+export default vm;
