@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
 Route::group(['middleware' => 'auth:api'], function() {
+
+    /**
+     * Friendships Routes
+     */
     Route::get('friends/{id?}', 'FriendsController@get_friends');
     Route::get('friends/count/{user_id}', 'FriendsController@get_friends_count');
     Route::get('friends/find', 'FriendsController@find_friends');
@@ -28,6 +32,13 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('friends/block/{sender_id}', 'FriendsController@block_user');
     Route::get('friends/blocked', 'FriendsController@fetch_blocked_users');
     Route::get('friends/unblocked/{friend_id}', 'FriendsController@unblock_user');
+
+    /**
+     * Messages Routes
+     */
+    Route::get('messages/threads/{user_id?}', 'MessagesController@index');
+    Route::post('messages/create', 'MessagesController@create_thread');
+    Route::get('messages/latest/{thread_id}', 'MessagesController@get_latest_message_from_thread');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

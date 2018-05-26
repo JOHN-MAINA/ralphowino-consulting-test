@@ -13,15 +13,16 @@ const METHOD_POST = 'post';
 const METHOD_PUT = 'put';
 export default {
 
-    doRequest: function (method, url) {
+    doRequest: function (method, url, postData) {
         return new Promise((resolve, reject) => {
 
             let onSuccess= (data) => {
                 resolve(data.body);
             };
 
-            let onFail = function (data) {
-                reject(data)
+            let onFail = function (error) {
+                // Check if its authentication error and require user to login
+                reject(error)
             };
 
             switch (method) {
@@ -29,10 +30,10 @@ export default {
                     Vue.http.get(url).then(onSuccess, onFail);
                     break;
                 case METHOD_PUT:
-                    Vue.http.put(url, JSON.stringify(data)).then(onSuccess, onFail);
+                    Vue.http.put(url, JSON.stringify(postData)).then(onSuccess, onFail);
                     break;
                 default:
-                    const dataStr = JSON.stringify(data);
+                    const dataStr = JSON.stringify(postData);
                     Vue.http.post(url, dataStr).then(onSuccess, onFail);
             }
 
@@ -42,10 +43,10 @@ export default {
 
 
     post: function (url, data) {
-        
+        return this.doRequest(METHOD_POST, '/api/' + url, data);
     },
     
     get: function (url) {
-        return this.doRequest(METHOD_GET, '/api/' + url);
+        return this.doRequest(METHOD_GET, '/api/' + url, false);
     }
 }

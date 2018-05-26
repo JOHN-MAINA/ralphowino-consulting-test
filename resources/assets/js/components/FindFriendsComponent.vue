@@ -9,7 +9,7 @@
                     <div class="col">{{ user.name }}</div>
                     <div class="col"><button class="btn btn-info" @click="sendRequest(user.id)" :disabled="isFriendRequestSent(user.id)">Send Request</button></div>
                 </div>
-                <nav aria-label="Page navigation example">
+                <nav aria-label="navigation">
                     <ul class="pagination">
                         <li v-bind:class="[{disabled: !users.prev_page_url}]" class="page-item">
                             <a class="page-link" @click="paginateUsers('friends/find?page=' + (users.current_page - 1))" href="#">

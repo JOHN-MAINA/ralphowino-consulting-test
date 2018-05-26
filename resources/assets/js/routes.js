@@ -7,9 +7,12 @@ import Login from './components/auth/LoginComponent.vue'
 import Register from './components/auth/RegisterComponent.vue'
 import Reset from './components/auth/ResetComponent.vue'
 import Email from './components/auth/EmailComponent.vue'
+import Messages from './components/messages/MessagesComponent.vue';
 import vm from './app';
 
 const routes = [
+
+    // Friendships routes
     {
         path: '/friends',
         name: 'Friends',
@@ -40,6 +43,16 @@ const routes = [
         component: BlockedUsers,
         meta: {requiresAuth: true}
     },
+
+    // Messages routes
+    {
+        path: '/messages',
+        name: 'Messages',
+        component: Messages,
+        meta:{requiresAuth: true}
+    },
+
+    // Auth routes
     {
         path: '/login',
         name: 'Login',
@@ -68,6 +81,8 @@ const routes = [
         name: 'Request_Token',
         component: Email
     }
+
+    // Handle 404s
     // { path: '*', redirect: '/list' },
 ];
 
