@@ -177,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Hootlex\Friendships\FriendshipsServiceProvider::class,
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
 
     ],
 
@@ -227,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Friendships' => Hootlex\Friendships\FriendshipsServiceProvider::class,
+        'Messenger' => Cmgmyr\Messenger\MessengerServiceProvider::class,
 
     ],
 
