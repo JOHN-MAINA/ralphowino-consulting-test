@@ -22,11 +22,6 @@
         mounted: function () {
             this.fetchFriendRequests();
         },
-        computed: {
-            friendRequests () {
-                return this.$store.state.friendRequests;
-            }
-        },
         methods: {
             fetchFriendRequests: function () {
                 http.get('friends/requests').then(

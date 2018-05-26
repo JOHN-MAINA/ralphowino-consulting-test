@@ -36,6 +36,13 @@ class FriendsController extends Controller
         return response()->json($friend_requests, $this->successStatus);
     }
 
+    public function fetch_pending_friend_requests($sender_id){
+        $user = User::find($sender_id);
+
+        $pendingFriendships = $user->getPendingFriendships();
+
+        return response()->json($pendingFriendships, $this->successStatus);
+    }
     public function accept_friend_request($sender_id){
         $user = Auth::user();
         $sender = User::find($sender_id);
@@ -53,6 +60,15 @@ class FriendsController extends Controller
         $friend_requests = $user->getFriendRequests();
         return response()->json($friend_requests, $this->successStatus);
     }
+    public function unblock_user($friend_id){
+        $user = Auth::user();
+        $friend = User::find($friend_id);
+        $user->unblockFriend($friend);
+
+        $blocked_users = $user->getBlockedFriendships();
+        return response()->json($blocked_users, $this->successStatus);
+    }
+
 
     public function deny_friend_request($sender_id){
         $user = Auth::user();

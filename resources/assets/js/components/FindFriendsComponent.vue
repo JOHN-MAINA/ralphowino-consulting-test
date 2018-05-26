@@ -4,6 +4,10 @@
             <div class="col">{{ user.name }}</div>
             <div class="col"><button class="btn btn-info" @click="sendRequest(user.id)" :disabled="isFriendRequestSent(user.id)">Send Request</button></div>
         </div>
+
+        <div class="row">
+
+        </div>
     </div>
 </template>
 
@@ -21,8 +25,8 @@
         },
 
         methods: {
-            fetchUsers: function () {
-                http.get('friends/find').then(
+            paginateUsers: function (url) {
+                http.get(url).then(
                     (data) => {
                         this.fetchFriendRequests();
                         this.users = data;
@@ -30,22 +34,26 @@
                     (error) => {
                         console.log(error)
                     }
-                )
+                );
+            },
+            fetchUsers: function () {
+                http.get('friends/find').then(
+                    (data) => {
+                        console.log(data);
+                        this.fetchFriendRequests();
+                        this.users = data;
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                );
             },
 
             fetchFriendRequests: function () {
-                http.get('friends/requests').then(
+                let user = JSON.parse(localStorage.getItem('user'));
+                http.get('friends/pending_friendships/' + user.identifier ).then(
                     (data) => {
-                        data.forEach((request) => {
-                            http.get('users/user/' + request.recipient_id).then(
-                                (data) => {
-                                    this.friendRequests.push(data);
-                                },
-                                (error) => {
-
-                                }
-                            )
-                        });
+                        this.friendRequests = data;
                     },
                     (error) => {
                         console.log(error)
@@ -63,10 +71,9 @@
                 )
             },
             isFriendRequestSent: function (id) {
-                console.log(this.friendRequests)
                 let requestSent = false;
                 this.friendRequests.forEach((request) => {
-                        if(request.id === id){
+                        if(request.recipient_id === id){
                             requestSent = true;
                         }
                 });
