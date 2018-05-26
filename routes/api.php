@@ -41,5 +41,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('messages/create', 'MessagesController@create_thread');
     Route::get('messages/{thread_id}/{user_id}', 'MessagesController@fetch_messages');
     Route::post('messages', 'MessagesController@save_message');
+    Route::get('messages/thread/participants/{thread_id}', 'MessagesController@get_thread_participants');
+    Route::get('participant/remove/{thread_id}/{participant_id}', 'MessagesController@remove_participant');
 });
 

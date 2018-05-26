@@ -18,6 +18,10 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul v-if="userName" class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                           <a class="nav-link" href="#"> Messages <span class="badge badge-light">0</span></a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ userName }}     <span class="caret"></span>

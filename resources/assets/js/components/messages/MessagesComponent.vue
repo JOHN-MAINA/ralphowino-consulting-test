@@ -64,7 +64,7 @@
                         Previous
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link text-dark" href="#"> {{ threads.current_page }} of {{ threads.last_page }}</a></li>
+                <li class="page-item disabled"><a class="page-link text-dark" href="#"> {{ threads.current_page }} of {{ threads.last_page }}</a></li>
                 <li v-bind:class="[{disabled: !threads.next_page_url}]" class="page-item">
                     <a class="page-link" @click="fetchThreads((threads.current_page + 1))" href="#">
                         Next
@@ -135,7 +135,6 @@
                 http.post('messages/create', postData).then(
                     (data) => {
                         this.threads = data;
-                        console.log(data)
                     },
                     (error) => {
                         console.log(error);

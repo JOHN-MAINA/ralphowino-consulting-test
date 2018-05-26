@@ -104,4 +104,29 @@ class MessagesController extends Controller
         $message->user = $user;
         return response()->json($message, $this->successCode);
     }
+
+    /**
+     * @param $thread_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_thread_participants($thread_id){
+        $thread = Thread::find($thread_id);
+        $participants = Participant::with(['user'])->where('thread_id', $thread_id)->get();
+
+        return response()->json(['participants' => $participants, 'thread' => $thread], $this->successCode);
+    }
+
+    public function remove_participant($thread_id, $participant_id){
+        $thread = Thread::find($thread_id);
+        $thread->removeParticipant($participant_id);
+
+        $participants = Participant::with(['user'])->where('thread_id', $thread_id)->get();
+
+        // Archive thread if the last user has left
+        if(count($participants) < 1){
+            $thread->delete();
+        }
+        return response()->json($participants, $this->successCode);
+
+    }
 }

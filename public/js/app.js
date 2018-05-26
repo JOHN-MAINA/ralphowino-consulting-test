@@ -30077,7 +30077,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].post('messages/create', postData).then(function (data) {
                 _this3.threads = data;
-                console.log(data);
             }, function (error) {
                 console.log(error);
             });
@@ -30235,6 +30234,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 var user = JSON.parse(localStorage.getItem('user'));
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -30328,6 +30331,8 @@ var render = function() {
                   _vm._v(" "),
                   _vm.userName
                     ? _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                        _vm._m(1),
+                        _vm._v(" "),
                         _c("li", { staticClass: "nav-item dropdown" }, [
                           _c(
                             "a",
@@ -30436,6 +30441,17 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "nav-item active" }, [
+      _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
+        _vm._v(" Messages "),
+        _c("span", { staticClass: "badge badge-light" }, [_vm._v("0")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -52844,7 +52860,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("li", { staticClass: "page-item" }, [
+          _c("li", { staticClass: "page-item disabled" }, [
             _c(
               "a",
               { staticClass: "page-link text-dark", attrs: { href: "#" } },
@@ -52955,6 +52971,8 @@ module.exports = Component.exports
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_http__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThreadInfoComponent_vue__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ThreadInfoComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ThreadInfoComponent_vue__);
 //
 //
 //
@@ -52991,6 +53009,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52998,16 +53027,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             messages: [],
             pagination: {},
-            message: ''
+            message: '',
+            leftConvo: false
         };
+    },
+
+    components: {
+        'thread-info': __WEBPACK_IMPORTED_MODULE_1__ThreadInfoComponent_vue___default.a
     },
     created: function created() {
         this.fetchMessages(1);
     },
 
     methods: {
-        sendMessage: function sendMessage() {
+        leaveConversation: function leaveConversation() {
             var _this = this;
+
+            var user = JSON.parse(localStorage.getItem('user'));
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('participant/remove/' + this.$route.params.id + '/' + user.identifier).then(function (participants) {
+                _this.leftConvo = true;
+                _this.$router.push({ name: 'Messages' });
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        sendMessage: function sendMessage() {
+            var _this2 = this;
 
             var user = JSON.parse(localStorage.getItem('user'));
             var postData = {
@@ -53016,21 +53061,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 "user_id": user.identifier
             };
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].post('messages', postData).then(function (message) {
-                _this.messages.push(message);
+                _this2.messages.push(message);
             }, function (error) {
                 console.log(error);
             });
         },
         fetchMessages: function fetchMessages(pageNumber) {
-            var _this2 = this;
+            var _this3 = this;
 
             var user = JSON.parse(localStorage.getItem('user'));
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('messages/' + this.$route.params.id + '/' + user.identifier + '?page=' + pageNumber).then(function (messages) {
                 messages.data.reverse();
                 messages.data.forEach(function (message) {
-                    _this2.messages.push(message);
+                    _this3.messages.push(message);
                 });
-                _this2.pagination = {
+                _this3.pagination = {
                     current_page: messages.current_page,
                     last_page: messages.last_page,
                     next_page_url: messages.next_page_url,
@@ -53039,8 +53084,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }, function (error) {
                 console.log(error);
             });
-
-            console.log(this.messages);
         }
     }
 });
@@ -53097,7 +53140,37 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h3", [_vm._v("Threads")]),
+      _c("div", { staticClass: "row my-2" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal fade",
+            attrs: {
+              id: "threadInfo",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "exampleModalLabel",
+              "aria-hidden": "true"
+            }
+          },
+          [_c("thread-info")],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-info",
+              attrs: { disabled: _vm.leftConvo },
+              on: { click: _vm.leaveConversation }
+            },
+            [_vm._v("Leave Conversation")]
+          )
+        ])
+      ]),
       _vm._v(" "),
       _vm._l(_vm.messages, function(message) {
         return _c("div", { staticClass: "card my-2" }, [
@@ -53140,74 +53213,360 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "row my-4" }, [
-        _c("div", { staticClass: "col-12" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-body py-1" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.sendMessage($event)
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "message" } }, [
-                      _vm._v("Message")
-                    ]),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.message,
-                          expression: "message"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { id: "message", rows: "3", required: "" },
-                      domProps: { value: _vm.message },
+      !_vm.leftConvo
+        ? _c("div", { staticClass: "row my-4" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _c("div", { staticClass: "card-body py-1" }, [
+                  _c(
+                    "form",
+                    {
                       on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.message = $event.target.value
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.sendMessage($event)
                         }
                       }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "submit" }
                     },
-                    [_vm._v("Send Message")]
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "message" } }, [
+                          _vm._v("Message")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.message,
+                              expression: "message"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "message", rows: "3", required: "" },
+                          domProps: { value: _vm.message },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.message = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Send Message")]
+                      )
+                    ]
                   )
-                ]
-              )
+                ])
+              ])
             ])
           ])
-        ])
-      ])
+        : _vm._e()
     ],
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-info",
+          attrs: { "data-toggle": "modal", "data-target": "#threadInfo" }
+        },
+        [_vm._v("Thread Info")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-71463372", module.exports)
+  }
+}
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(110)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(108)
+/* template */
+var __vue_template__ = __webpack_require__(112)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-2f765339"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/messages/ThreadInfoComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2f765339", Component.options)
+  } else {
+    hotAPI.reload("data-v-2f765339", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_http__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            participants: [],
+            thread: {}
+        };
+    },
+    created: function created() {
+        this.fetchThreadParticipants();
+    },
+
+    methods: {
+        fetchThreadParticipants: function fetchThreadParticipants() {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('messages/thread/participants/' + this.$route.params.id).then(function (threadInfo) {
+                _this.participants = threadInfo.participants;
+                _this.thread = threadInfo.thread;
+            }, function (error) {
+                console.log(error);
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 109 */,
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(111);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("384fc5cf", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2f765339\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ThreadInfoComponent.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2f765339\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ThreadInfoComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.profile[data-v-2f765339] {\n    height: 50px;\n}\n.img-fluid[data-v-2f765339] {\n    max-height: 100%;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "modal-dialog", attrs: { role: "document" } },
+    [
+      _c("div", { staticClass: "modal-content" }, [
+        _c("div", { staticClass: "modal-header" }, [
+          _c(
+            "h5",
+            { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+            [
+              _vm._v(
+                "Thread Information  Subject: " + _vm._s(_vm.thread.subject)
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(0)
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "modal-body" },
+          _vm._l(_vm.participants, function(participant) {
+            return _c("div", { staticClass: "row align-items-center my-4" }, [
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/profile/" + participant.user.id } },
+                    [
+                      _c("div", { staticClass: "row align-items-center" }, [
+                        _c("div", { staticClass: "col profile" }, [
+                          _c("img", {
+                            staticClass: "img-fluid rounded-circle",
+                            attrs: { src: "/images/avatar.png" }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col" }, [
+                          _vm._v(_vm._s(participant.user.name))
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                1
+              )
+            ])
+          })
+        ),
+        _vm._v(" "),
+        _vm._m(1)
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2f765339", module.exports)
   }
 }
 
