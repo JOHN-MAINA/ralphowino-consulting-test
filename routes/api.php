@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
+
 Route::group(['middleware' => 'auth:api'], function() {
 
     /**
@@ -38,9 +39,7 @@ Route::group(['middleware' => 'auth:api'], function() {
      */
     Route::get('messages/threads/{user_id?}', 'MessagesController@index');
     Route::post('messages/create', 'MessagesController@create_thread');
-    Route::get('messages/latest/{thread_id}', 'MessagesController@get_latest_message_from_thread');
+    Route::get('messages/{thread_id}/{user_id}', 'MessagesController@fetch_messages');
+    Route::post('messages', 'MessagesController@save_message');
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});

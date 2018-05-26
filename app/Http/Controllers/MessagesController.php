@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use App\User;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -80,10 +79,29 @@ class MessagesController extends Controller
      * @param $thread_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get_latest_message_from_thread($thread_id){
-        $latest_message = Thread::find($thread_id)->getLatestMessageAttribute();
-        $user = User::find($latest_message->user_id);
-        $latest_message->user = $user;
-        return response()->json([$latest_message, $user], $this->successCode);
+    public function fetch_messages($thread_id, $user_id){
+        $messagesPerPage = 10;
+        $messages = Message::with(['user'])->where('thread_id', $thread_id)->orderBy('created_at', 'desc')->paginate($messagesPerPage);
+
+        $thread = Thread::find($thread_id);
+        $thread->markAsRead($user_id);
+        return response()->json($messages, $this->successCode);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function save_message(Request $request){
+        $message = new Message();
+        $message->thread_id = $request->thread_id;
+        $message->user_id = $request->user_id;
+        $message->body = $request->message;
+
+        $message->save();
+
+        $user = User::find($message->user_id);
+        $message->user = $user;
+        return response()->json($message, $this->successCode);
     }
 }

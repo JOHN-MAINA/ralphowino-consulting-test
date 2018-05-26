@@ -27205,7 +27205,10 @@ if (inBrowser && window.Vue) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_auth_EmailComponent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_messages_MessagesComponent_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_messages_MessagesComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_messages_MessagesComponent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_messages_ThreadComponent_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_messages_ThreadComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__components_messages_ThreadComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__app__ = __webpack_require__(7);
+
 
 
 
@@ -27253,6 +27256,11 @@ var routes = [
     path: '/messages',
     name: 'Messages',
     component: __WEBPACK_IMPORTED_MODULE_9__components_messages_MessagesComponent_vue___default.a,
+    meta: { requiresAuth: true }
+}, {
+    path: '/messages/thread/:id',
+    name: 'Thread',
+    component: __WEBPACK_IMPORTED_MODULE_10__components_messages_ThreadComponent_vue___default.a,
     meta: { requiresAuth: true }
 },
 
@@ -30041,7 +30049,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var user = JSON.parse(localStorage.getItem('user'));
             __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('messages/threads/' + user.identifier + '?page=' + page).then(function (threads) {
-                console.log(threads);
                 _this.threads = threads;
             }, function (error) {
                 console.log(error);
@@ -52780,28 +52787,32 @@ var render = function() {
             "div",
             { staticClass: "col" },
             [
-              _c("router-link", { attrs: { to: "#" } }, [
-                _c("div", { staticClass: "row align-items-center" }, [
-                  _c("div", { staticClass: "col profile" }, [
-                    _c("img", {
-                      staticClass: "img-fluid rounded-circle",
-                      attrs: { src: "/images/avatar.png" }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _vm._v(_vm._s(thread.user.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _vm._v(_vm._s(thread.latest_message.body))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col" }, [
-                    _vm._v(_vm._s(thread.subject))
+              _c(
+                "router-link",
+                { attrs: { to: "/messages/thread/" + thread.id } },
+                [
+                  _c("div", { staticClass: "row align-items-center" }, [
+                    _c("div", { staticClass: "col profile" }, [
+                      _c("img", {
+                        staticClass: "img-fluid rounded-circle",
+                        attrs: { src: "/images/avatar.png" }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col" }, [
+                      _vm._v(_vm._s(thread.user.name))
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col" }, [
+                      _vm._v(_vm._s(thread.latest_message.body))
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col" }, [
+                      _vm._v(_vm._s(thread.subject))
+                    ])
                   ])
-                ])
-              ])
+                ]
+              )
             ],
             1
           )
@@ -52883,6 +52894,320 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-9d411176", module.exports)
+  }
+}
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(104)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(102)
+/* template */
+var __vue_template__ = __webpack_require__(106)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-71463372"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/messages/ThreadComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-71463372", Component.options)
+  } else {
+    hotAPI.reload("data-v-71463372", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_http__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            messages: [],
+            pagination: {},
+            message: ''
+        };
+    },
+    created: function created() {
+        this.fetchMessages(1);
+    },
+
+    methods: {
+        sendMessage: function sendMessage() {
+            var _this = this;
+
+            var user = JSON.parse(localStorage.getItem('user'));
+            var postData = {
+                "thread_id": this.$route.params.id,
+                "message": this.message,
+                "user_id": user.identifier
+            };
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].post('messages', postData).then(function (message) {
+                _this.messages.push(message);
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        fetchMessages: function fetchMessages(pageNumber) {
+            var _this2 = this;
+
+            var user = JSON.parse(localStorage.getItem('user'));
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('messages/' + this.$route.params.id + '/' + user.identifier + '?page=' + pageNumber).then(function (messages) {
+                messages.data.reverse();
+                messages.data.forEach(function (message) {
+                    _this2.messages.push(message);
+                });
+                _this2.pagination = {
+                    current_page: messages.current_page,
+                    last_page: messages.last_page,
+                    next_page_url: messages.next_page_url,
+                    prev_page_url: messages.prev_page_url
+                };
+            }, function (error) {
+                console.log(error);
+            });
+
+            console.log(this.messages);
+        }
+    }
+});
+
+/***/ }),
+/* 103 */,
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(105);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("2d0f662b", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-71463372\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ThreadComponent.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-71463372\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ThreadComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.profile[data-v-71463372] {\n    height: 50px;\n}\n.img-fluid[data-v-71463372] {\n    max-height: 100%;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("h3", [_vm._v("Threads")]),
+      _vm._v(" "),
+      _vm._l(_vm.messages, function(message) {
+        return _c("div", { staticClass: "card my-2" }, [
+          _c("div", { staticClass: "card-body py-1" }, [
+            _c("div", { staticClass: "row align-items-center" }, [
+              _c(
+                "div",
+                { staticClass: "col profile" },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/profile/" + message.user.id } },
+                    [
+                      _c("img", {
+                        staticClass: "img-fluid rounded-circle",
+                        attrs: { src: "/images/avatar.png" }
+                      })
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col" },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/profile/" + message.user.id } },
+                    [_vm._v(_vm._s(message.user.name))]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col" }, [_vm._v(_vm._s(message.body))])
+            ])
+          ])
+        ])
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "row my-4" }, [
+        _c("div", { staticClass: "col-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body py-1" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.sendMessage($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "message" } }, [
+                      _vm._v("Message")
+                    ]),
+                    _vm._v(" "),
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.message,
+                          expression: "message"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "message", rows: "3", required: "" },
+                      domProps: { value: _vm.message },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.message = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Send Message")]
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-71463372", module.exports)
   }
 }
 

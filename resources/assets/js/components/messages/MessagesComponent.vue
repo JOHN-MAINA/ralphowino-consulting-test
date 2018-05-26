@@ -43,7 +43,7 @@
 
         <div v-for="thread in threads.data" class="row align-items-center my-4">
             <div class="col">
-                <router-link to="#">
+                <router-link :to="'/messages/thread/' + thread.id ">
                     <div class="row align-items-center">
                         <div class="col profile">
                             <img src="/images/avatar.png" class="img-fluid rounded-circle"/>
@@ -104,7 +104,6 @@
                 let user = JSON.parse(localStorage.getItem('user'));
                 http.get('messages/threads/' + user.identifier + '?page=' + page).then(
                     (threads) => {
-                        console.log(threads)
                         this.threads = threads;
                     },
                     (error) => {

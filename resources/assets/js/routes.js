@@ -8,6 +8,7 @@ import Register from './components/auth/RegisterComponent.vue'
 import Reset from './components/auth/ResetComponent.vue'
 import Email from './components/auth/EmailComponent.vue'
 import Messages from './components/messages/MessagesComponent.vue';
+import Thread from './components/messages/ThreadComponent.vue';
 import vm from './app';
 
 const routes = [
@@ -49,6 +50,12 @@ const routes = [
         path: '/messages',
         name: 'Messages',
         component: Messages,
+        meta:{requiresAuth: true}
+    },
+    {
+        path: '/messages/thread/:id',
+        name: 'Thread',
+        component: Thread,
         meta:{requiresAuth: true}
     },
 
