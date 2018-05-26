@@ -30,23 +30,9 @@
                 </div>
             </nav>
             <div class="container">
-                <div class="row my-4">
-                    <div class="col-3">
-                        <div class="list-group">
-                            <router-link to="/friends" class="list-group-item list-group-item-action">My Friends</router-link>
-                            <router-link to="/friends/find" class="list-group-item list-group-item-action">Find Friends</router-link>
-                            <router-link to="/friends/requests" class="list-group-item list-group-item-action">Friend Requests</router-link>
-                            <router-link to="/friends/blocked" class="list-group-item list-group-item-action">Blocked Users</router-link>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div>
-                            <transition name="fade">
-                                <router-view></router-view>
-                            </transition>
-                        </div>
-                    </div>
-                </div>
+                <transition name="fade">
+                    <router-view></router-view>
+                </transition>
             </div>
         </div>
 

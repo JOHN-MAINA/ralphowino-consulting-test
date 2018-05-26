@@ -1,11 +1,31 @@
 <template>
     <div>
-        <div v-for="user in users.data" class="row align-items-center my-4">
-            <div class="col">{{ user.name }}</div>
-            <div class="col"><button class="btn btn-info" @click="sendRequest(user.id)" :disabled="isFriendRequestSent(user.id)">Send Request</button></div>
-        </div>
+        <div class="row my-4">
+            <div class="col-3">
+                <friends-nav></friends-nav>
+            </div>
+            <div class="col-9">
+                <div v-for="user in users.data" class="row align-items-center my-4">
+                    <div class="col">{{ user.name }}</div>
+                    <div class="col"><button class="btn btn-info" @click="sendRequest(user.id)" :disabled="isFriendRequestSent(user.id)">Send Request</button></div>
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li v-bind:class="[{disabled: !users.prev_page_url}]" class="page-item">
+                            <a class="page-link" @click="paginateUsers('friends/find?page=' + (users.current_page - 1))" href="#">
+                                Previous
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link text-dark" href="#"> {{ users.current_page }} of {{ users.last_page }}</a></li>
+                        <li v-bind:class="[{disabled: !users.next_page_url}]" class="page-item">
+                            <a class="page-link" @click="paginateUsers('friends/find?page=' + (users.current_page + 1))" href="#">
+                                Next
+                            </a>
+                        </li>
 
-        <div class="row">
+                    </ul>
+                </nav>
+            </div>
 
         </div>
     </div>
@@ -13,11 +33,15 @@
 
 <script>
     import http from '../mixins/http';
+    import FriendsNav from './templates/FriendsNavComponent.vue';
     export default {
+        components: {
+           'friends-nav': FriendsNav
+        },
         data () {
             return {
                 users: {},
-                friendRequests: []
+                friendRequests: [],
             }
         },
         created: function () {
@@ -39,7 +63,6 @@
             fetchUsers: function () {
                 http.get('friends/find').then(
                     (data) => {
-                        console.log(data);
                         this.fetchFriendRequests();
                         this.users = data;
                     },
@@ -60,10 +83,11 @@
                     }
                 )
             },
-            sendRequest: (recipient_id) => {
+            sendRequest: function (recipient_id) {
                 http.get('friends/request/' + recipient_id). then (
                     (data) => {
-                        console.log(data)
+                        // Re-fetch friendrequests to force dom to re-render
+                        this.fetchFriendRequests();
                     },
                     (error) => {
                         console.log(error)

@@ -1,17 +1,27 @@
 <template>
     <div>
-        <h3 class="h3">My Friends</h3>
-        <div v-for="friend in friends" class="row align-items-center my-4">
-            <div class="col">{{ friend.name }}</div>
-            <div class="col"><button class="btn btn-info" @click="blockFriend(friend.id)">Block</button></div>
+        <div class="row my-4">
+            <div class="col-3">
+                <friends-nav></friends-nav>
+            </div>
+            <div class="col-9">
+                <h3 class="h3">My Friends</h3>
+                <div v-for="friend in friends" class="row align-items-center my-4">
+                    <div class="col">{{ friend.name }}</div>
+                    <div class="col"><button class="btn btn-info" @click="blockFriend(friend.id)">Block</button></div>
+                </div>
+            </div>
         </div>
-
     </div>
 </template>
 
 <script>
     import http from '../mixins/http';
+    import FriendsNav from './templates/FriendsNavComponent.vue';
     export default {
+        components: {
+            'friends-nav': FriendsNav
+        },
         data(){
             return {
                 friends: []
