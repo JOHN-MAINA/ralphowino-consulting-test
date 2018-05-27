@@ -6,6 +6,7 @@ use App\Events\UserCreated;
 use GetStream\Stream\Client;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
 class UserCreatedListener
@@ -29,11 +30,10 @@ class UserCreatedListener
     public function handle(UserCreated $event)
     {
         // Instantiate a new client, find your API keys in the dashboard.
-        $client = new Client('fjc6zh99wy5p', 'zpb2j5yqrmcuuy8rc93u8du8vjw9wces3ncuvvknvmgtxn4uxvv5jnbqw6ejsbet');
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
 
         // Instantiate a feed object
-        $userFeed = $client->feed('user', 68);
+        $client->feed('user', $event->user->id);
 
-        Log::error(print_r($userFeed, true));
     }
 }
