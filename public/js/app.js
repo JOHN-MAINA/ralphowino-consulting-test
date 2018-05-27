@@ -53635,6 +53635,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_http__ = __webpack_require__(2);
 //
 //
 //
@@ -53663,17 +53664,107 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            post: ''
+            post: '',
+            feedActivity: [],
+            next_page: 1,
+            loggedInUser: {},
+            noMoreActivities: false
         };
+    },
+    created: function created() {
+        this.loggedInUser = JSON.parse(localStorage.getItem('user'));
+        this.fetchFeedActivity();
     },
 
     methods: {
+        deletePost: function deletePost(acticity_id, post_id) {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('post/delete/' + post_id + '/' + acticity_id + '/' + this.loggedInUser.identifier).then(function (data) {
+                _this.feedActivity = _this.feedActivity.filter(function (feed) {
+                    return feed.post.id != post_id;
+                });
+            }, function (error) {
+                console.log(error);
+            });
+        },
+        paginateActivities: function paginateActivities(direction) {
+            this.next_page = this.next_page + direction;
+            this.fetchFeedActivity();
+        },
+        fetchFeedActivity: function fetchFeedActivity() {
+            var _this2 = this;
+
+            var user = JSON.parse(localStorage.getItem('user'));
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('post/' + user.identifier + '/' + this.next_page).then(function (feed) {
+                if (feed.posts.length === 0) {
+                    _this2.noMoreActivities = !_this2.noMoreActivities;
+                }
+                feed.posts.forEach(function (post) {
+                    _this2.feedActivity.push(post);
+                });
+                _this2.next_page = feed.next_page;
+            }, function (error) {
+                console.log(error);
+            });
+        },
         createNewPost: function createNewPost() {
-            console.log(this.post);
+            var user = JSON.parse(localStorage.getItem('user'));
+            var data = {
+                "user_id": user.identifier,
+                "body": this.post
+            };
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].post('post', data).then(function (post) {
+                console.log(post);
+            }, function (error) {
+                console.log(error);
+            });
         }
     }
 });
@@ -53714,7 +53805,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.profile[data-v-41085cf6] {\n    height: 50px;\n}\n.img-fluid[data-v-41085cf6] {\n    max-height: 100%;\n}\n", ""]);
 
 // exports
 
@@ -53727,62 +53818,177 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row my-2" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "form",
-              {
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.createNewPost($event)
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "row my-2" }, [
+        _c("div", { staticClass: "col-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.createNewPost($event)
+                    }
                   }
-                }
-              },
-              [
-                _c("div", { staticClass: "form-row align-items-center" }, [
-                  _c("div", { staticClass: "col-md-8" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "post" } }, [
-                        _vm._v("New Post")
-                      ]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.post,
-                            expression: "post"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: "post", rows: "3", required: "" },
-                        domProps: { value: _vm.post },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                },
+                [
+                  _c("div", { staticClass: "form-row align-items-center" }, [
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "post" } }, [
+                          _vm._v("New Post")
+                        ]),
+                        _vm._v(" "),
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.post,
+                              expression: "post"
                             }
-                            _vm.post = $event.target.value
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "post", rows: "3", required: "" },
+                          domProps: { value: _vm.post },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.post = $event.target.value
+                            }
                           }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(0)
-                ])
-              ]
-            )
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ])
+                ]
+              )
+            ])
           ])
         ])
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.feedActivity, function(feed) {
+        return _c("div", { staticClass: "row my-2" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c(
+                "div",
+                { staticClass: "card-header bg-light" },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/profile/" + feed.post.user.id } },
+                    [
+                      _c("div", { staticClass: "row align-items-center" }, [
+                        _c("div", { staticClass: "col profile" }, [
+                          _c("img", {
+                            staticClass: "img-fluid rounded-circle",
+                            attrs: { src: "/images/avatar.png" }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col" }, [
+                          _vm._v(_vm._s(feed.post.user.name))
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("p", [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(feed.post.body) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                feed.post.user_id == _vm.loggedInUser.identifier
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        on: {
+                          click: function($event) {
+                            _vm.deletePost(feed.activity.id, feed.post.id)
+                          }
+                        }
+                      },
+                      [_vm._v(" Delete ")]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ])
+        ])
+      }),
+      _vm._v(" "),
+      _c("nav", { attrs: { "aria-label": "navigation" } }, [
+        _c("ul", { staticClass: "pagination" }, [
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: _vm.next_page == 1 || _vm.next_page == 2 }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.paginateActivities(-1)
+                    }
+                  }
+                },
+                [_vm._v("\n                    Previous\n                ")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "page-item",
+              class: [{ disabled: _vm.noMoreActivities }]
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.paginateActivities(1)
+                    }
+                  }
+                },
+                [_vm._v("\n                    Next\n                ")]
+              )
+            ]
+          )
+        ])
       ])
-    ])
-  ])
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
@@ -53795,6 +54001,16 @@ var staticRenderFns = [
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
         [_vm._v("Submit")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "page-item" }, [
+      _c("a", { staticClass: "page-link text-dark", attrs: { href: "#" } }, [
+        _vm._v(" Activities ")
+      ])
     ])
   }
 ]

@@ -43,5 +43,13 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('messages', 'MessagesController@save_message');
     Route::get('messages/thread/participants/{thread_id}', 'MessagesController@get_thread_participants');
     Route::get('participant/remove/{thread_id}/{participant_id}', 'MessagesController@remove_participant');
+
+    /**
+     * News Feed Routes
+     */
+    Route::get('post/{user_id}/{page_number?}', 'PostController@index');
+    Route::post('post', 'PostController@create');
+    Route::get('post/delete/{post_id}/{activity_id?}/{user_id?}', 'PostController@delete_post');
+
 });
 

@@ -30,14 +30,18 @@ class PostCreatedListener
     {
         // Add post to user feed as an activity
         // Instantiate a feed object
-        $userFeed = new Client(Config::get('stream.key'), Config::get('stream.secret'));
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
 
-// Add an activity to the feed, where actor, object and target are references to objects (`Eric`, `Hawaii`, `Places to Visit`)
+// Add an activity to the feed
         $data = [
             "actor"=>"User:" . $event->post->user_id,
             "verb"=>"post",
             "object"=>"Post:" . $event->post->id,
         ];
+
+
+        // Instantiate a feed object
+        $userFeed = $client->feed('user', $event->post->user_id);
 
         $userFeed->addActivity($data);
     }

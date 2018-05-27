@@ -15,4 +15,8 @@ class Post extends Model
     protected $dispatchesEvents = [
         'created' => PostCreated::class,
     ];
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }
