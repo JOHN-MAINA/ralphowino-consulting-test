@@ -229,7 +229,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Friendships' => Hootlex\Friendships\FriendshipsServiceProvider::class,
         'Messenger' => Cmgmyr\Messenger\MessengerServiceProvider::class,
-
     ],
 
 ];
