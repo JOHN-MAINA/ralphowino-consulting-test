@@ -2,12 +2,18 @@
 
 namespace App;
 
+use App\Events\UserCreated;
 use Illuminate\Notifications\Notifiable;
+use Hootlex\Friendships\Traits\Friendable;
+use Cmgmyr\Messenger\Traits\Messagable;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable, Messagable;
+
+    use Friendable;
 
     /**
      * The attributes that are mass assignable.
@@ -25,5 +31,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    //Events
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
     ];
 }

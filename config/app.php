@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Ralphowino'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Hootlex\Friendships\FriendshipsServiceProvider::class,
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
 
     ],
 
@@ -225,7 +227,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Friendships' => Hootlex\Friendships\FriendshipsServiceProvider::class,
+        'Messenger' => Cmgmyr\Messenger\MessengerServiceProvider::class,
     ],
 
 ];
