@@ -13,3 +13,5 @@
 1. Set stream api and secret in the env file
         `STREAM_API_KEY=your_key`
         `STREAM_API_SECRET=your_secret`
+1. Create the encryption keys needed to generate secure access tokens
+        `php artisan passport:install`
