@@ -9,7 +9,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <router-link class="nav-link" to="/friends">Friends <span class="sr-only"></span></router-link>
                         </li>
                     </ul>
 
@@ -21,32 +21,18 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
+                                <router-link class="dropdown-item" to="/logout">
                                     logout
-                                </a>
+                                </router-link>
                             </div>
                         </li>
                     </ul>
                 </div>
             </nav>
             <div class="container">
-                <div class="row my-4">
-                    <div class="col-3">
-                        <div class="list-group">
-                            <router-link to="/friends" class="list-group-item list-group-item-action">My Friends</router-link>
-                            <router-link to="/friends/find" class="list-group-item list-group-item-action">Find Friends</router-link>
-                            <router-link to="/friends/requests" class="list-group-item list-group-item-action">Friend Requests</router-link>
-                            <router-link to="#" class="list-group-item list-group-item-action">N/A</router-link>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div>
-                            <transition name="fade">
-                                <router-view></router-view>
-                            </transition>
-                        </div>
-                    </div>
-                </div>
+                <transition name="fade">
+                    <router-view></router-view>
+                </transition>
             </div>
         </div>
 
@@ -72,7 +58,7 @@
             }
         },
         created: function () {
-            var routeName = this.$route.name
+            var routeName = this.$route.name;
 
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;

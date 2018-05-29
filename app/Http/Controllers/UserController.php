@@ -44,4 +44,9 @@ class UserController extends Controller
         $success['id'] = $user->id;
         return response()->json(['success'=>$success], $this->successStatus);
     }
+
+    public function fetch_user($id){
+        $user = User::find($id);
+        return response()->json($user, $this->successStatus);
+    }
 }
