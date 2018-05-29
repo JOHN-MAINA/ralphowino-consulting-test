@@ -132,4 +132,17 @@ class MessagesController extends Controller
         return response()->json($participants, $this->successCode);
 
     }
+
+    public function fetch_unread_messages($user_id){
+        $unreadMessages = 0;
+
+        $threads = Thread::forUser($user_id)->latest('updated_at')->get();
+
+        foreach ($threads as $thread){
+            $unread_count = $thread->userUnreadMessagesCount($user_id);
+            $unreadMessages += $unread_count;
+        }
+
+        return response()->json($unreadMessages);
+    }
 }

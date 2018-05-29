@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     /**
      * Messages Routes
      */
+    Route::get('messages/unread/{user_id}', 'MessagesController@fetch_unread_messages');
     Route::get('messages/threads/{user_id?}', 'MessagesController@index');
     Route::post('messages/create', 'MessagesController@create_thread');
     Route::get('messages/{thread_id}/{user_id}', 'MessagesController@fetch_messages');

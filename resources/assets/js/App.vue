@@ -19,7 +19,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul v-if="userName" class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                           <a class="nav-link" href="#"> Messages <span class="badge badge-light">0</span></a>
+                           <a class="nav-link" href="#"> Messages <span class="badge badge-light">{{ unreadCount }}</span></a>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -55,13 +55,15 @@
 </template>
 
 <script>
+    import http from './mixins/http';
     let user = JSON.parse(localStorage.getItem('user'));
     export default{
         data(){
             return {
                 isAuthComponent: false,
                 userName: '',
-                userEmail: ''
+                userEmail: '',
+                unreadCount: 0
             }
         },
         created: function () {
@@ -72,6 +74,19 @@
             }
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;
+            }
+            this.getUnReadMessages();
+        },
+        methods: {
+            getUnReadMessages: function () {
+                http.get('messages/unread/' + user.identifier).then(
+                    (unreadCount) => {
+                        this.unreadCount = unreadCount;
+                    },
+                    (error) => {
+                        console.log(error)
+                    }
+                )
             }
         }
     }
