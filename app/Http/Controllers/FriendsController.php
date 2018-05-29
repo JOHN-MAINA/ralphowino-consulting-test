@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use GetStream\Stream\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class FriendsController extends Controller
 {
@@ -62,6 +64,15 @@ class FriendsController extends Controller
         $sender = User::find($sender_id);
         $user->acceptFriendRequest($sender);
 
+        // Instantiate a new client, find your API keys in the dashboard.
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
+
+        // Instantiate a feed object
+        $userFeed = $client->feed('user', $sender_id);
+
+        // Follow user feed
+        $userFeed->follow('user', $user->id);
+
         $friend_requests = $user->getFriendRequests();
         return response()->json($friend_requests, $this->successStatus);
     }
@@ -71,6 +82,15 @@ class FriendsController extends Controller
         $friend = User::find($sender_id);
         $user->blockFriend($friend);
 
+        // Instantiate a new client, find your API keys in the dashboard.
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
+
+        // Instantiate a feed object
+        $userFeed = $client->feed('user', $sender_id);
+
+        // Follow user feed
+        $userFeed->unfollow('user', $user->id);
+
         $friend_requests = $user->getFriendRequests();
         return response()->json($friend_requests, $this->successStatus);
     }
@@ -78,6 +98,15 @@ class FriendsController extends Controller
         $user = Auth::user();
         $friend = User::find($friend_id);
         $user->unblockFriend($friend);
+
+        // Instantiate a new client, find your API keys in the dashboard.
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
+
+        // Instantiate a feed object
+        $userFeed = $client->feed('user', $friend_id);
+
+        // Follow user feed
+        $userFeed->follow('user', $user->id);
 
         $blocked_users = $user->getBlockedFriendships();
         return response()->json($blocked_users, $this->successStatus);

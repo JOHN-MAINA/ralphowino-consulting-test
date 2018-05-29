@@ -9,6 +9,7 @@ import Reset from './components/auth/ResetComponent.vue'
 import Email from './components/auth/EmailComponent.vue'
 import Messages from './components/messages/MessagesComponent.vue';
 import Thread from './components/messages/ThreadComponent.vue';
+import NewsFeed from './components/newsfeed/NewsFeedComponent.vue';
 import vm from './app';
 
 const routes = [
@@ -57,6 +58,15 @@ const routes = [
         name: 'Thread',
         component: Thread,
         meta:{requiresAuth: true}
+    },
+
+
+    // News feed routes
+    {
+        path: '/',
+        name: 'NewsFeed',
+        component: NewsFeed,
+        meta: {requiresAuth: true}
     },
 
     // Auth routes

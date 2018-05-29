@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use App\User;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,8 @@ class MessagesController extends Controller
      * @return Response
      */
     public function index($user_id = false){
+        Log::error(Config::get('stream.key'));
+        Log::error(Config::get('stream.secret'));
         $threads = null;
         $threads_count = 10;
         if ($user_id){
