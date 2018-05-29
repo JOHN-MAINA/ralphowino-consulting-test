@@ -20,7 +20,7 @@ export default {
                  storage.setItem('issuedTime', Date.now());
 
                  // Use route push
-                 //window.location = '/friends';
+                 window.location = '/friends';
 
              },
              function (error){
