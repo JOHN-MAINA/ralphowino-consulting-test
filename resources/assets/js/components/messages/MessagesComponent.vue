@@ -49,7 +49,7 @@
                             <img src="/images/avatar.png" class="img-fluid rounded-circle"/>
                         </div>
                         <div class="col">{{ thread.user.name }}</div>
-                        <div class="col">{{ thread.latest_message.body }}</div>
+                        <div class="col">{{ thread.latest_message.body.substring(0,70) + '...'}}</div>
                         <div class="col">{{ thread.subject }}</div>
                     </div>
                 </router-link>

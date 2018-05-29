@@ -51855,7 +51855,11 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col" }, [
-                      _vm._v(_vm._s(thread.latest_message.body))
+                      _vm._v(
+                        _vm._s(
+                          thread.latest_message.body.substring(0, 70) + "..."
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col" }, [
