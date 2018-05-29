@@ -31,9 +31,13 @@ class FriendsController extends Controller
         return response()->json($friends_count, $this->successStatus);
     }
 
-    public function find_friends(){
-        $user = User::where('id', '!=', Auth::user()->id)->paginate(20);
-        return response()->json($user, $this->successStatus);
+    public function find_friends($user_id){
+        if($user_id){
+            $users = User::where('id', '!=', $user_id)->paginate(20);
+            return response()->json($users, $this->successStatus);
+        }
+        $users = User::where('id', '!=', Auth::user()->id)->paginate(20);
+        return response()->json($users, $this->successStatus);
     }
 
     public function send_request($recipient_id) {

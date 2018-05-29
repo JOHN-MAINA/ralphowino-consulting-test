@@ -61,7 +61,8 @@
                 );
             },
             fetchUsers: function () {
-                http.get('friends/find').then(
+                let user = JSON.parse(localStorage.getItem('user'));
+                http.get('friends/find/' + user.identifier).then(
                     (data) => {
                         this.fetchFriendRequests();
                         this.users = data;

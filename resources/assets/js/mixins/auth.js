@@ -79,7 +79,6 @@ export default {
         // Decode jwt
         let data = JSON.parse(atob(accessToken[1]));
         const now = Date.now()/1000;
-        console.log(now - (localStorage.getItem('issuedTime'))/1000);
 
         if(now - (localStorage.getItem('issuedTime'))/1000 > EXPIRY_TIME){
             // token was issued a day ago fetch a new one;
