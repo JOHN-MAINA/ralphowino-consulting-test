@@ -21,7 +21,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     /**
      * Friendships Routes
      */
-    Route::get('friends/{id?}', 'FriendsController@get_friends');
     Route::get('friends/count/{user_id}', 'FriendsController@get_friends_count');
     Route::get('friends/find/{user_id?}', 'FriendsController@find_friends');
     Route::get('friends/request/{recipient_id}', 'FriendsController@send_request');
@@ -33,6 +32,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('friends/block/{sender_id}', 'FriendsController@block_user');
     Route::get('friends/blocked', 'FriendsController@fetch_blocked_users');
     Route::get('friends/unblocked/{friend_id}', 'FriendsController@unblock_user');
+    Route::get('friends/{id?}', 'FriendsController@get_friends');
 
     /**
      * Messages Routes
