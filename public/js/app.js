@@ -517,8 +517,6 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_resource__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app__ = __webpack_require__(15);
-
 
 
 
@@ -527,7 +525,7 @@ var EXPIRY_TIME = 60 * 60 * 24; // One day
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_resource__["default"]);
 /* harmony default export */ __webpack_exports__["a"] = ({
     login: function login(data) {
-        console.log(this);
+        var vm = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
         __WEBPACK_IMPORTED_MODULE_0_vue___default.a.http.post('/api/login', data).then(function (data) {
             var storage = window.localStorage;
             var user = {
@@ -539,11 +537,13 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
             storage.setItem('token', data.body.success.token);
             storage.setItem('issuedTime', Date.now());
 
-            __WEBPACK_IMPORTED_MODULE_2__app__["default"].$router.push({ name: 'Friends' });
+            // Use route push
+            window.location = '/friends';
         }, function (error) {
             console.log(error);
         });
     },
+    logout: function logout() {},
     register: function register(data) {
         __WEBPACK_IMPORTED_MODULE_0_vue___default.a.http.post('/api/register', data).then(function (data) {
             var storage = window.localStorage;
@@ -50914,7 +50914,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchUsers: function fetchUsers() {
             var _this2 = this;
 
-            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/find').then(function (data) {
+            var user = JSON.parse(localStorage.getItem('user'));
+            __WEBPACK_IMPORTED_MODULE_0__mixins_http__["a" /* default */].get('friends/find/' + user.identifier).then(function (data) {
                 _this2.fetchFriendRequests();
                 _this2.users = data;
             }, function (error) {
@@ -51865,7 +51866,11 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col" }, [
-                      _vm._v(_vm._s(thread.latest_message.body))
+                      _vm._v(
+                        _vm._s(
+                          thread.latest_message.body.substring(0, 70) + "..."
+                        )
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col" }, [
