@@ -9,44 +9,37 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <router-link class="nav-link" to="/friends">Friends <span class="sr-only"></span></router-link>
+                        </li>
+                        <li class="nav-item active">
+                            <router-link class="nav-link" to="/messages">Messages <span class="sr-only"></span></router-link>
                         </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul v-if="userName" class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                           <a class="nav-link" href="#"> Messages <span class="badge badge-light">0</span></a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ userName }}     <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
+                                <router-link class="dropdown-item" to="/logout">
                                     logout
-                                </a>
+                                </router-link>
                             </div>
                         </li>
                     </ul>
                 </div>
             </nav>
             <div class="container">
-                <div class="row my-4">
-                    <div class="col-3">
-                        <div class="list-group">
-                            <router-link to="/friends" class="list-group-item list-group-item-action">My Friends</router-link>
-                            <router-link to="/friends/find" class="list-group-item list-group-item-action">Find Friends</router-link>
-                            <router-link to="/friends/requests" class="list-group-item list-group-item-action">Friend Requests</router-link>
-                            <router-link to="#" class="list-group-item list-group-item-action">N/A</router-link>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <div>
-                            <transition name="fade">
-                                <router-view></router-view>
-                            </transition>
-                        </div>
-                    </div>
-                </div>
+                <transition name="fade">
+                    <router-view></router-view>
+                </transition>
             </div>
         </div>
 
@@ -67,13 +60,16 @@
         data(){
             return {
                 isAuthComponent: false,
-                userName: user.name,
-                userEmail: user.email
+                userName: '',
+                userEmail: ''
             }
         },
         created: function () {
-            var routeName = this.$route.name
-
+            let routeName = this.$route.name;
+            if (user){
+                this.userName = user.name;
+                this.userEmail = user.email;
+            }
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;
             }
