@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserCreated;
 use Illuminate\Notifications\Notifiable;
 use Hootlex\Friendships\Traits\Friendable;
 use Cmgmyr\Messenger\Traits\Messagable;
@@ -30,5 +31,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    //Events
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
     ];
 }
