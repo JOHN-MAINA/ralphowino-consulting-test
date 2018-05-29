@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
+import comp from '../app';
 
 const EXPIRY_TIME = 60 * 60 * 24; // One day
 
 Vue.use(VueResource);
 export default {
     login: function (data) {
-        let vm = Vue;
+        console.log(this);
          Vue.http.post('/api/login', data).then(
              (data) => {
                  let storage = window.localStorage;
@@ -19,10 +20,7 @@ export default {
                  storage.setItem('token', data.body.success.token);
                  storage.setItem('issuedTime', Date.now());
 
-                 // Use route push
-                 //window.location = '/friends';
-
-                 //Vue.$router.push({name: 'Friends'})
+                 comp.$router.push({name: 'Friends'});
 
              },
              (error) => {

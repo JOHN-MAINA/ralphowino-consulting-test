@@ -15,7 +15,12 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
+
 Route::group(['middleware' => 'auth:api'], function() {
+
+    /**
+     * Friendships Routes
+     */
     Route::get('friends/{id?}', 'FriendsController@get_friends');
     Route::get('friends/count/{user_id}', 'FriendsController@get_friends_count');
     Route::get('friends/find', 'FriendsController@find_friends');
@@ -28,8 +33,15 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('friends/block/{sender_id}', 'FriendsController@block_user');
     Route::get('friends/blocked', 'FriendsController@fetch_blocked_users');
     Route::get('friends/unblocked/{friend_id}', 'FriendsController@unblock_user');
+
+    /**
+     * Messages Routes
+     */
+    Route::get('messages/threads/{user_id?}', 'MessagesController@index');
+    Route::post('messages/create', 'MessagesController@create_thread');
+    Route::get('messages/{thread_id}/{user_id}', 'MessagesController@fetch_messages');
+    Route::post('messages', 'MessagesController@save_message');
+    Route::get('messages/thread/participants/{thread_id}', 'MessagesController@get_thread_participants');
+    Route::get('participant/remove/{thread_id}/{participant_id}', 'MessagesController@remove_participant');
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});

@@ -11,10 +11,17 @@
                         <li class="nav-item active">
                             <router-link class="nav-link" to="/friends">Friends <span class="sr-only"></span></router-link>
                         </li>
+                        <li class="nav-item active">
+                            <router-link class="nav-link" to="/messages">Messages <span class="sr-only"></span></router-link>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul v-if="userName" class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                           <a class="nav-link" href="#"> Messages <span class="badge badge-light">0</span></a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ userName }}     <span class="caret"></span>
@@ -53,13 +60,16 @@
         data(){
             return {
                 isAuthComponent: false,
-                userName: user.name,
-                userEmail: user.email
+                userName: '',
+                userEmail: ''
             }
         },
         created: function () {
-            var routeName = this.$route.name;
-
+            let routeName = this.$route.name;
+            if (user){
+                this.userName = user.name;
+                this.userEmail = user.email;
+            }
             if (routeName == 'Login' || routeName == 'Register'|| routeName == 'Reset_Pass' || routeName == 'Request_Token') {
                 this.isAuthComponent = true;
             }

@@ -26,10 +26,13 @@ router.beforeResolve((to, from, next) => {
 });
 
 let vm = new Vue({
+    mixins: [Auth],
     store: store,
     el: '#app',
     'router': router,
     render: h => h(App)
 });
 
-export default vm;
+export default {
+    vm
+};
