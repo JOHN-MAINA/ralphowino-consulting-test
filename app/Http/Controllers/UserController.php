@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use GetStream\Stream\Client;
 use GetStream\StreamLaravel\Eloquent\ActivityTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,6 +42,13 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+
+        // Instantiate a feed object
+        $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
+        // Instantiate a feed object
+        $client->feed('user', $user->id);
+
+
         $success['token'] =  $user->createToken('Ralphowino')->accessToken;
         $success['name'] =  $user->name;
         $success['email'] = $user->email;
