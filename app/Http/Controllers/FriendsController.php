@@ -77,6 +77,12 @@ class FriendsController extends Controller
         // Follow user feed
         $userFeed->follow('user', $user->id);
 
+        // Instantiate a feed object
+        $user2Feed = $client->feed('user', $user->id);
+
+        // Follow user feed
+        $user2Feed->follow('user', $sender_id);
+
         $friend_requests = $user->getFriendRequests();
         return response()->json($friend_requests, $this->successStatus);
     }
