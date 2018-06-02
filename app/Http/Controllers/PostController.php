@@ -57,6 +57,14 @@ class PostController extends Controller
         $client = new Client(Config::get('stream.key'), Config::get('stream.secret'));
         // Instantiate a feed object
         $userFeed = $client->feed('user', $post->user_id);
+
+        // Add activity
+        $activity_data = [
+            'actor' => "User:" . $post->user_id,
+            'verb' => "post",
+            'object' => "Post:" . $post->id,
+        ];
+         $userFeed->addActivity($activity_data);
         // Get the latest activities for this user's personal feed, based on who they are following.
         $response = $userFeed->getActivities(0, 2);
         return response()->json(['post' => $post, 'feedActivities' => $response], $this->successStatus);
